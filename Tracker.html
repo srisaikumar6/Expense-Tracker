@@ -1,183 +1,312 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./Tracker.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Track your income and spending, and see your balance at a glance."
+    />
+    <meta name="theme-color" content="#f7f8f2" />
+    <title>Your tracker — Expense Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./Tracker.css" />
   </head>
   <body>
-    
-    <div class="header">
-        <p class="m-0">Expense  <br> Tracker
-            <img src="./logo.png" width="35px" alt="">
-        </p>
-    </div>
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="Expense Tracker home">
+        <img src="./logo.png" alt="" />
+        <span>Expense Tracker</span>
+      </a>
+      <div class="header-actions">
+        <span class="greeting" id="greeting"></span>
+        <a class="home-link" href="./index.html">Home <span aria-hidden="true">↗</span></a>
+      </div>
+    </header>
 
-    <div class="input-form">
-        <div class="form-floating inputs">
-            <input type="text" class="form-control amountInput" id="floatingInput" placeholder="name@example.com">
-            <label for="floatingInput">Amount</label>
+    <main class="app-shell">
+      <section class="page-intro" aria-labelledby="page-title">
+        <p class="eyebrow">Your money, at a glance</p>
+        <h1 id="page-title">Your tracker</h1>
+        <p>Add a transaction to keep your balance up to date.</p>
+      </section>
+
+      <form class="transaction-form" id="transaction-form">
+        <div class="field">
+          <label for="amount">Amount (₹)</label>
+          <input
+            id="amount"
+            name="amount"
+            type="number"
+            min="0.01"
+            step="0.01"
+            inputmode="decimal"
+            placeholder="e.g. 1250"
+            required
+          />
         </div>
-        <select class="form-select inputs transactionType" aria-label="Default select example">
-            <option selected>Transaction type</option>
+        <div class="field">
+          <label for="transaction-type">Type</label>
+          <select id="transaction-type" name="type" required>
+            <option value="" selected disabled>Choose a type</option>
             <option value="income">Income</option>
             <option value="expense">Expense</option>
           </select>
-        <div class="form-floating inputs">
-            <input type="date" class="form-control dateInput" id="floatingInput" placeholder="name@example.com">
-            <label for="floatingInput">Date</label>
         </div>
-        <button class="btn" id="add-button" onclick="addRow()"> Add </button>
-    </div>
+        <div class="field">
+          <label for="transaction-date">Date</label>
+          <input id="transaction-date" name="date" type="date" required />
+        </div>
+        <button class="add-button" type="submit">Add transaction <span aria-hidden="true">+</span></button>
+      </form>
+      <p class="status-message" id="status-message" role="status" aria-live="polite"></p>
 
-    <div class="cards mt-4">
-        <div class="card">
-            <div class="card-body">
-              <h5 class="card-title m-0">Total Income
-                <img src="./wallet.png" width="35px" alt="">
-              </h5>
-              <h1 class="m-0">
-                <img src="./rupee.png" width="35px" alt="">
-                <span id="totalincome" class="m-0">0</span>
-              </h1>
-            </div>
+      <section class="summary-grid" aria-label="Transaction summary">
+        <article class="summary-card" data-type="income">
+          <div class="summary-label">
+            <span>Total income</span>
+            <img src="./wallet.png" alt="" />
           </div>
-
-
-          <div class="card" >
-            <div class="card-body">
-              <h5 class="card-title m-0">Total Expense
-                <img src="./expenses.png" width="35px" alt="">
-              </h5>
-              <h1 class="m-0">
-                <img src="./rupee.png" width="35px" alt="">
-                <span id="expense" class="m-0">0</span>
-              </h1>
-            </div>
+          <p class="summary-amount" id="total-income">₹0</p>
+        </article>
+        <article class="summary-card" data-type="expense">
+          <div class="summary-label">
+            <span>Total expenses</span>
+            <img src="./expenses.png" alt="" />
           </div>
-
-
-          <div class="card" >
-            <div class="card-body">
-              <h5 class="card-title m-0">Balance
-                <img src="./money-bag.png" width="35px" alt="">
-              </h5>
-              <h1 class="m-0">
-                <img src="./rupee.png" width="35px" alt="">
-                <span id="balance" class="m-0">0</span>
-              </h1>
-            </div>
+          <p class="summary-amount" id="total-expense">₹0</p>
+        </article>
+        <article class="summary-card" data-type="balance">
+          <div class="summary-label">
+            <span>Current balance</span>
+            <img src="./money-bag.png" alt="" />
           </div>
-    </div>
+          <p class="summary-amount" id="balance">₹0</p>
+        </article>
+      </section>
 
-    <table class="transaction-table mt-3" id="table">
-        <tr id="header-row">
-            <th>Amount</th>
-            <th>Transaction Type</th>
-            <th>Transaction Date</th>
-            <th>Action</th>
-        </tr>
-    </table>
+      <section class="activity-section" aria-labelledby="activity-title">
+        <div class="activity-heading">
+          <h2 id="activity-title">Recent activity</h2>
+          <p id="transaction-count">0 transactions</p>
+        </div>
+        <div class="table-card">
+          <div class="empty-state" id="empty-state">
+            <p>No transactions yet. Add your first one above to get started.</p>
+          </div>
+          <div class="table-scroll" id="table-scroll" hidden>
+            <table class="transaction-table">
+              <thead>
+                <tr>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="transaction-list"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
 
     <script>
+      const storageKey = "expense-tracker-transactions";
+      const form = document.getElementById("transaction-form");
+      const amountInput = document.getElementById("amount");
+      const typeInput = document.getElementById("transaction-type");
+      const dateInput = document.getElementById("transaction-date");
+      const statusMessage = document.getElementById("status-message");
+      const transactionList = document.getElementById("transaction-list");
+      const tableScroll = document.getElementById("table-scroll");
+      const emptyState = document.getElementById("empty-state");
+      const currency = new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      });
 
+      const now = new Date();
+      dateInput.value = [
+        now.getFullYear(),
+        String(now.getMonth() + 1).padStart(2, "0"),
+        String(now.getDate()).padStart(2, "0"),
+      ].join("-");
 
-      let table = document.getElementById('table');
-      console.log(table);
-
-      function deleteRow (row) {
-        console.log("Hi");
-        console.log(row);
-        row.remove();
-      }
-      
-
-      function addRow (){
-        let amount = document.getElementsByClassName('amountInput')[0].value;
-        let transaction = document.getElementsByClassName('transactionType')[0].value;
-        let date = document.getElementsByClassName('dateInput')[0].value;
-
-        let row = document.createElement('tr');
-
-        let amountCell = document.createElement('td')
-        amountCell.innerText = amount;
-
-        let transactionCell = document.createElement('td')
-        transactionCell.innerText = transaction;
-
-        let dateCell = document.createElement('td')
-        dateCell.innerText = date;
-
-        let binCell = document.createElement('td')
-
-        let deleteButton = document.createElement('button')
-        let binImage = document.createElement('img')
-        binImage.src='./recycle-bin.png'
-        binImage.style.width='30px'
-        binImage.style.height='30px'
-        deleteButton.classList.add('delete-button')
-        deleteButton.appendChild(binImage)
-        deleteButton.onclick = () => deleteRow(row)
-
-        binCell.appendChild(deleteButton);
-
-        row.appendChild(amountCell)
-        row.appendChild(transactionCell)
-        row.appendChild(dateCell)
-        row.appendChild(binCell)
-
-        table.appendChild(row)
-
-        let totalincome = document.getElementById('totalincome').innerText
-        let totalexpense = document.getElementById('expense').innerText
-        let balance = document.getElementById('balance').innerText
-
-        if(transaction == 'income'){
-          if(totalincome == '0'){
-            document.getElementById('totalincome').innerText = amount
-          }
-          else{
-            document.getElementById('totalincome').innerText = parseInt(totalincome) + parseInt (amount)
-          }
-          if(balance == '0'){
-            document.getElementById('balance').innerText = amount;
-          }
-          else{
-            document.getElementById('balance').innerText = parseInt(balance) + parseInt(amount);
-          }
+      try {
+        const savedName = localStorage.getItem("expense-tracker-name");
+        if (savedName) {
+          document.getElementById("greeting").textContent = `Welcome, ${savedName}`;
         }
-        else if(transaction == 'expense'){
-          if(totalexpense == '0'){
-            document.getElementById('expense').innerText = amount
-          }
-          else{
-            document.getElementById('expense').innerText = parseInt(totalexpense) + parseInt (amount)
-          }
+      } catch {
+        statusMessage.textContent = "Your browser couldn't read the saved name.";
+        statusMessage.dataset.kind = "error";
+      }
 
-          if(balance == '0'){
-            document.getElementById('balance').innerText = amount;
+      let transactions = [];
+      let storageReady = true;
+
+      function isTransaction(value) {
+        return (
+          value &&
+          typeof value.id === "string" &&
+          Number.isFinite(value.amount) &&
+          value.amount > 0 &&
+          (value.type === "income" || value.type === "expense") &&
+          /^\d{4}-\d{2}-\d{2}$/.test(value.date)
+        );
+      }
+
+      try {
+        const savedTransactions = localStorage.getItem(storageKey);
+        const parsedTransactions = savedTransactions ? JSON.parse(savedTransactions) : [];
+        if (!Array.isArray(parsedTransactions) || !parsedTransactions.every(isTransaction)) {
+          throw new Error("Saved transactions are not in the expected format.");
+        }
+        transactions = parsedTransactions;
+      } catch {
+        storageReady = false;
+        statusMessage.textContent =
+          "Saved transactions couldn't be read. Your browser data was left untouched. Refresh or clear this site's data before adding more.";
+        statusMessage.dataset.kind = "error";
+      }
+
+      function saveTransactions(nextTransactions) {
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(nextTransactions));
+          return true;
+        } catch {
+          statusMessage.textContent =
+            "Your browser couldn't save this change. Check your browser storage and try again.";
+          statusMessage.dataset.kind = "error";
+          return false;
+        }
+      }
+
+      function formatDate(value) {
+        const [year, month, day] = value.split("-").map(Number);
+        return new Date(year, month - 1, day).toLocaleDateString("en-IN", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+      }
+
+      function updateSummary() {
+        const income = transactions.reduce(
+          (total, transaction) =>
+            transaction.type === "income" ? total + transaction.amount : total,
+          0,
+        );
+        const expenses = transactions.reduce(
+          (total, transaction) =>
+            transaction.type === "expense" ? total + transaction.amount : total,
+          0,
+        );
+
+        document.getElementById("total-income").textContent = currency.format(income);
+        document.getElementById("total-expense").textContent = currency.format(expenses);
+        document.getElementById("balance").textContent = currency.format(income - expenses);
+        document.getElementById("transaction-count").textContent =
+          `${transactions.length} ${transactions.length === 1 ? "transaction" : "transactions"}`;
+      }
+
+      function createTransactionRow(transaction) {
+        const row = document.createElement("tr");
+        const amountCell = document.createElement("td");
+        const typeCell = document.createElement("td");
+        const dateCell = document.createElement("td");
+        const actionCell = document.createElement("td");
+        const typeLabel = document.createElement("span");
+        const deleteButton = document.createElement("button");
+
+        amountCell.textContent = currency.format(transaction.amount);
+        typeLabel.className = "transaction-kind";
+        typeLabel.dataset.type = transaction.type;
+        typeLabel.textContent = transaction.type;
+        typeCell.appendChild(typeLabel);
+        dateCell.textContent = formatDate(transaction.date);
+        deleteButton.className = "delete-button";
+        deleteButton.type = "button";
+        deleteButton.setAttribute("aria-label", `Delete ${transaction.type} transaction`);
+        deleteButton.textContent = "×";
+        deleteButton.addEventListener("click", () => {
+          const nextTransactions = transactions.filter((item) => item.id !== transaction.id);
+          if (saveTransactions(nextTransactions)) {
+            transactions = nextTransactions;
+            renderTransactions();
+            statusMessage.textContent = "Transaction deleted.";
+            delete statusMessage.dataset.kind;
           }
-          else{
-            document.getElementById('balance').innerText = parseInt(balance) - parseInt(amount);
-          }
+        });
+        actionCell.appendChild(deleteButton);
+        row.append(amountCell, typeCell, dateCell, actionCell);
+        return row;
+      }
+
+      function renderTransactions() {
+        transactionList.replaceChildren(...transactions.map(createTransactionRow));
+        emptyState.hidden = transactions.length > 0;
+        tableScroll.hidden = transactions.length === 0;
+        updateSummary();
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!storageReady) {
+          statusMessage.textContent =
+            "Adding transactions is disabled until the saved data can be read safely.";
+          statusMessage.dataset.kind = "error";
+          return;
         }
 
-        console.log('Line 23 :' ,totalincome,totalexpense,balance);
-        
+        const amount = Number(amountInput.value);
+        if (!Number.isFinite(amount) || amount <= 0) {
+          amountInput.setCustomValidity("Enter an amount greater than zero.");
+          amountInput.reportValidity();
+          return;
+        }
+        amountInput.setCustomValidity("");
 
-        console.log("Line 2 :" ,amountCell, transactionCell, dateCell);
-        
-      }
+        const transaction = {
+          id: window.crypto.randomUUID
+            ? window.crypto.randomUUID()
+            : `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+          amount,
+          type: typeInput.value,
+          date: dateInput.value,
+        };
+        if (!isTransaction(transaction)) {
+          statusMessage.textContent = "Check the amount, type, and date, then try again.";
+          statusMessage.dataset.kind = "error";
+          return;
+        }
+
+        const nextTransactions = [transaction, ...transactions];
+        if (saveTransactions(nextTransactions)) {
+          transactions = nextTransactions;
+          renderTransactions();
+          form.reset();
+          dateInput.value = [
+            now.getFullYear(),
+            String(now.getMonth() + 1).padStart(2, "0"),
+            String(now.getDate()).padStart(2, "0"),
+          ].join("-");
+          statusMessage.textContent = "Transaction added.";
+          delete statusMessage.dataset.kind;
+          amountInput.focus();
+        }
+      });
+
+      amountInput.addEventListener("input", () => amountInput.setCustomValidity(""));
+      renderTransactions();
     </script>
-    
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
   </body>
 </html>
