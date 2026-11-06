@@ -2,9 +2,9 @@
 
 A lightweight, responsive expense tracker built with HTML, CSS, and browser storage.
 
-## Screenshot
+## Website preview
 
-![GitHub deployment check screenshot](./github-status.png)
+![Screenshot of the Expense Tracker website homepage](./website-screenshot.png)
 
 ## Features
 
