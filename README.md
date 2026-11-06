@@ -2,6 +2,10 @@
 
 A lightweight, responsive expense tracker built with HTML, CSS, and browser storage.
 
+## Screenshot
+
+![GitHub deployment check screenshot](./github-status.png)
+
 ## Features
 
 - Record income and expenses in Indian rupees.
