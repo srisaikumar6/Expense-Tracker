@@ -21,6 +21,6 @@ Open [http://localhost:8000](http://localhost:8000) in your browser.
 
 ## Deploy
 
-The GitHub Actions workflow deploys the static site to GitHub Pages when changes are pushed to `main`. The repository's Pages source must be set to **GitHub Actions**.
+The GitHub Actions workflow deploys the static site to GitHub Pages when changes are pushed to `main`. The repository's Pages source must be set to **GitHub Actions**. After deployment, open [Expense Tracker on GitHub Pages](https://srisaikumar6.github.io/Expense-Tracker/).
 
 Transactions are stored only in the browser where they were entered; they are not synced between devices.
